@@ -57,3 +57,4 @@ def get_post(id, check_author=True):
         abort(403)
 
     return post
+
