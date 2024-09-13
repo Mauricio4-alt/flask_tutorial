@@ -2,15 +2,15 @@ import sqlite3
 
 import click
 from flask import current_app, g
-
+#Se utiliza para almacenar datos a los que podrían acceder varias funciones durante la petición.
 
 def get_db():
     if 'db' not in g:
-        g.db = sqlite3.connect(
+        g.db = sqlite3.connect( # establece una conexión con el fichero apuntado por la clave de configuración DATABASE
             current_app.config['DATABASE'],
             detect_types=sqlite3.PARSE_DECLTYPES
         )
-        g.db.row_factory = sqlite3.Row
+        g.db.row_factory = sqlite3.Row #  indica a la conexión que devuelva filas que se comporten como dicts
 
     return g.db
 
@@ -32,6 +32,7 @@ def init_db_command():
     """Clear the existing data and create new tables."""
     init_db()
     click.echo('Initialized the database.')
+
 def init_app(app):
     app.teardown_appcontext(close_db)
     app.cli.add_command(init_db_command)
